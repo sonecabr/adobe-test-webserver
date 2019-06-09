@@ -1,0 +1,73 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE"
+    }
+}
+
+apply plugin: 'java'
+
+group 'com.adobe.test'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+task webserverRun(type: JavaExec) {
+    dependsOn 'clean'
+    dependsOn 'compileJava'
+    dependsOn 'test'
+    tasks.findByName('compileJava').mustRunAfter 'clean'
+    tasks.findByName('test').mustRunAfter 'compileJava'
+    tasks.findByName('webserverRun').mustRunAfter 'test'
+    classpath sourceSets.main.runtimeClasspath
+    main = "com.adobe.test.webserver.WebServerApplication"
+    args "arg1", "arg2"
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Adobe Test WebServer',
+                'Implementation-Version': version,
+                'Main-Class': 'com.adobe.test.webserver.WebServerApplication'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+//test {
+//    useJUnitPlatform()
+//}
+
+dependencies {
+
+    compile 'commons-io:commons-io:2.6'
+
+    compile 'com.typesafe:config:1.0.2'
+
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+
+    compile 'org.slf4j:jcl-over-slf4j:1.7.26'
+
+    compile 'org.slf4j:slf4j-api:1.7.26'
+
+    compile 'com.google.code.gson:gson:2.8.5'
+
+    compile 'com.google.guava:guava:11.0.2'
+
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+
+    testCompile 'junit:junit:4.12'
+
+    //testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+
+    //testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+}

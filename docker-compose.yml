@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  adobe-test-webserver:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        buildno: 1
+    environment:
+      server_threadlimit: 4
+      server_port: 8080
+      server_webroot: "/var/www/"
+      server_notfoundfile: "404.html"
+      server_backenderrorfile: "500.html"
+      server_charset: "UTF-8"
+      server_servername: "Adobe Test WebServer 0.1-SNAPSHOT"
+      server_keepaliveactive: "true"
+
+    volumes:
+      - "/tmp/www:/var/www/"
+
+    ports:
+      - "8080:8080"
+
+
+
