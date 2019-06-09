@@ -12,6 +12,20 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
+/**
+ * Http1.x OPTIONS method dispatcher
+ * <ul>
+ *     <li>manage requests for POST method</li>
+ *     <li>threat all headers from client side</li>
+ *     <li>write headers and body (html)</li>
+ *     <li>configure response headers and code</li>
+ *     <li>read and write post payload</li>
+ * </ul>
+ *
+ *
+ * @author Andre Rocha
+ * @since 2019-06-09
+ */
 @Slf4j
 @Builder
 public class Http1xPOSTHandler extends BaseHttp1xHandler implements HttpPOSTHandler {

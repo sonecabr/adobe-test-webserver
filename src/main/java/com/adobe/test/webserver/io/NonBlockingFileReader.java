@@ -12,6 +12,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+/**
+ * No blocking file reader
+ * <p>
+ *     Read files without read lock
+ * </p>
+ * @author Andre Rocha
+ * @since 2019-06-08
+ */
 @Slf4j
 public class NonBlockingFileReader implements FileReader {
 
@@ -40,6 +48,13 @@ public class NonBlockingFileReader implements FileReader {
 
     }
 
+    /**
+     * Consume file content and write the content to outputstream (should not block the access to file)
+     * @param canonicalPath
+     * @param outputStream
+     * @return WebContentFile - with file content
+     * @throws FileNotFoundUnreadableException
+     */
     private WebContentFile consume(String canonicalPath, BufferedOutputStream outputStream) {
         try (InputStream is = Files.newInputStream(Paths.get(canonicalPath), StandardOpenOption.READ)) {
 

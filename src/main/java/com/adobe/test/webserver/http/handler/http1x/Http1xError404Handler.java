@@ -14,6 +14,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+
+/**
+ * Http1.x 404 page not found dispatcher api
+ *
+ * @author Andre Rocha
+ * @since 2019-06-09
+ */
 @Builder
 @Slf4j
 public class Http1xError404Handler extends BaseHttp1xHandler implements HttpError404Handler {

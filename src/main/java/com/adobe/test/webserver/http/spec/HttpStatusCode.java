@@ -3,6 +3,12 @@ package com.adobe.test.webserver.http.spec;
 
 import lombok.Getter;
 
+/**
+ * Http status code type definition
+ *
+ * @author Andre Rocha
+ * @since 2019-06-09
+ */
 @Getter
 public enum HttpStatusCode {
     OK_200(200),

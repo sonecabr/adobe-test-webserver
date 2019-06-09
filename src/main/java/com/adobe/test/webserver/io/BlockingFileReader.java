@@ -13,6 +13,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+
+/**
+ *  Blocking file reader
+ * <p>
+ *     Read files with read lock
+ * </p>
+ * @author Andre Rocha
+ * @since 2019-06-08
+ */
 @Slf4j
 public class BlockingFileReader implements FileReader {
 
@@ -42,6 +51,13 @@ public class BlockingFileReader implements FileReader {
 
     }
 
+    /**
+     * Consume file content and write the content to outputstream (might block the access to file)
+     * @param canonicalPath
+     * @param outputStream
+     * @return WebContentFile - with file content
+     * @throws FileNotFoundUnreadableException
+     */
     private WebContentFile consume(String canonicalPath, BufferedOutputStream outputStream) throws FileNotFoundUnreadableException {
         FileInputStream fin = null;
         File file = new File(canonicalPath);

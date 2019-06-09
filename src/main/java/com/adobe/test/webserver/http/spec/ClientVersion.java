@@ -2,6 +2,12 @@ package com.adobe.test.webserver.http.spec;
 
 import lombok.Getter;
 
+/**
+ * Supported http client version definition
+ *
+ * @author Andre Rocha
+ * @since 2019-06-09
+ */
 public enum  ClientVersion {
     HTTP10("HTTP/1.0"),
     HTTP11("HTTP/1.1"),

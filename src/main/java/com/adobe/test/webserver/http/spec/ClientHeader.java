@@ -3,6 +3,12 @@ package com.adobe.test.webserver.http.spec;
 import lombok.Builder;
 import lombok.Value;
 
+/**
+ * Http Headers available for this server
+ *
+ * @author Andre Rocha
+ * @since 2019-06-09
+ */
 @Builder
 @Value
 public class ClientHeader {

@@ -5,6 +5,12 @@ import lombok.Value;
 
 import java.util.Map;
 
+/**
+ * Url encoded type definition
+ *
+ * @author Andre Rocha
+ * @since 2019-06-09
+ */
 @Builder
 @Value
 public class ClientFormDataUrlEncoded implements ClientFormData {

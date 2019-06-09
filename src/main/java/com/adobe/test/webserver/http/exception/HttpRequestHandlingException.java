@@ -1,5 +1,12 @@
 package com.adobe.test.webserver.http.exception;
 
+
+/**
+ * Http request exception for handling/dispatching business errors
+ *
+ * @author Andre Rocha
+ * @since 2019-06-09
+ */
 public class HttpRequestHandlingException extends Exception {
     public HttpRequestHandlingException() {
     }
