@@ -1,6 +1,7 @@
 package com.adobe.test.webserver.http.handler.http1x;
 
-import com.adobe.test.webserver.http.handler.HttpGETHandler;
+import com.adobe.test.webserver.http.handler.HttpPOSTHandler;
+import com.adobe.test.webserver.http.spec.ClientFormDataUrlEncoded;
 import com.adobe.test.webserver.http.spec.ClientHeader;
 import com.adobe.test.webserver.http.spec.ContentType;
 import com.adobe.test.webserver.http.spec.HttpStatusCode;
@@ -10,22 +11,17 @@ import com.adobe.test.webserver.server.WebServerConfigs;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 @Slf4j
 @Builder
-public class Http1xGETHandler extends BaseHttp1xHandler implements HttpGETHandler  {
+public class Http1xPOSTHandler extends BaseHttp1xHandler implements HttpPOSTHandler {
 
-    final int HTTP_CODE = HttpStatusCode.OK_200.getCode();
+    final int HTTP_CODE = HttpStatusCode.CREATED_201.getCode();
 
     @Override
-    public void handle(ClientHeader clientHeaders,
-                       BufferedReader requestStream,
-                       PrintWriter headerResponseStream,
-                       BufferedOutputStream payloadResponseStream) {
+    public void handle(ClientHeader clientHeaders, BufferedReader requestStream,
+                       PrintWriter headerResponseStream, BufferedOutputStream payloadResponseStream) {
 
         log.info(String.format("Received a GET request %s", clientHeaders.getUrl()));
         String uri = clientHeaders.getUrl();
@@ -38,8 +34,9 @@ public class Http1xGETHandler extends BaseHttp1xHandler implements HttpGETHandle
             if(ContentType.byExtension(extractExtension(uri)).equals(ContentType.DEFAULT)) {
                 uri += ContentType.HTML.getExtension();
             }
+            //payloadResponseStream.write(((ClientFormDataUrlEncoded) clientHeaders.getFormData()).getRaw().getBytes());
             WebContentFile content = fileReader.readContent(uri, payloadResponseStream);
-            this.printHeaders(
+            printHeaders(
                     HTTP_CODE,
                     headerResponseStream,
                     ContentType.byExtension(extractExtension(uri)),
@@ -65,10 +62,8 @@ public class Http1xGETHandler extends BaseHttp1xHandler implements HttpGETHandle
     }
 
     @Override
-    public void printHeaders(int httpCode, PrintWriter headerResponseStream, ContentType contentType, int lenght, String clientVersion) {
-        headerResponseStream.println(String.format("%s %d OK", clientVersion, httpCode));
-        super.printHeaders(httpCode, headerResponseStream, contentType, lenght, clientVersion);
+    public void printHeaders(int httpCode, PrintWriter headerResponseStream, ContentType contentType, int length, String clientVersion) {
+        headerResponseStream.println(String.format("%s %d CREATED", clientVersion, httpCode));
+        super.printHeaders(httpCode, headerResponseStream, contentType, length, clientVersion);
     }
-
-
 }

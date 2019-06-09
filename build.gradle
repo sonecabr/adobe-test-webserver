@@ -41,6 +41,10 @@ task fatJar(type: Jar) {
     with jar
 }
 
+//test {
+//    useJUnitPlatform()
+//}
+
 dependencies {
 
     compile 'commons-io:commons-io:2.6'
@@ -61,5 +65,9 @@ dependencies {
 
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
 
+    testCompile 'junit:junit:4.12'
 
+    //testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+
+    //testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 }

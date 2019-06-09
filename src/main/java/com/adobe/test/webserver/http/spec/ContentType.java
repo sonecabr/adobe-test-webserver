@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public enum ContentType {
     HTM("text/htm", ".htm"),
     HTML("text/html", ".html"),
+    URL_ENCODED("application/x-www-form-urlencoded", ".html"),
     DEFAULT("text/html", "");
 
     String description = "text/html";
@@ -22,7 +23,7 @@ public enum ContentType {
     public static ContentType byExtension(String extension) {
         return Arrays.asList(ContentType.values())
                 .stream()
-                .filter(t -> t.extension.toLowerCase().equals(extension.toLowerCase()))
+                .filter(t -> t.getExtension().toLowerCase().equals(extension.toLowerCase()))
                 .collect(Collectors.toList()).get(0);
     }
 }

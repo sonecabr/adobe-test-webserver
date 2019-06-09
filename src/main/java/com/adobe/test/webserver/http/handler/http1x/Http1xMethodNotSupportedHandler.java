@@ -1,12 +1,10 @@
 package com.adobe.test.webserver.http.handler.http1x;
 
 import com.adobe.test.webserver.http.handler.HttpMethodNotSupportedHandler;
-import com.adobe.test.webserver.http.spec.ClientHeaders;
+import com.adobe.test.webserver.http.spec.ClientHeader;
 import com.adobe.test.webserver.http.spec.ContentType;
 import com.adobe.test.webserver.http.spec.HttpStatusCode;
 import com.adobe.test.webserver.io.WebContentFile;
-import com.adobe.test.webserver.io.exception.FileNotFoundUnreadableException;
-import com.adobe.test.webserver.server.WebServerConfigs;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,15 +17,15 @@ import java.io.PrintWriter;
 @Builder
 public class Http1xMethodNotSupportedHandler extends BaseHttp1xHandler implements HttpMethodNotSupportedHandler {
 
-    final int HTTP_CODE = HttpStatusCode.OK_200.getCode();
+    final int HTTP_CODE = HttpStatusCode.METHOD_NOT_ALLOWED.getCode();
 
     @Override
-    public void handle(ClientHeaders clientHeaders,
+    public void handle(ClientHeader clientHeaders,
                        BufferedReader requestStream,
                        PrintWriter headerResponseStream,
                        BufferedOutputStream payloadResponseStream) {
 
-        log.info(String.format("Received a OPTIONS request %s", clientHeaders.getUrl()));
+        log.info(String.format("Received a Not allowed request %s", clientHeaders.getUrl()));
         String uri = clientHeaders.getUrl();
 
         if (ContentType.byExtension(extractExtension(uri)).equals(ContentType.DEFAULT)) {
@@ -50,8 +48,15 @@ public class Http1xMethodNotSupportedHandler extends BaseHttp1xHandler implement
             payloadResponseStream.flush();
             headerResponseStream.close();
             payloadResponseStream.close();
+            requestStream.close();
         } catch (IOException e) {
             log.error("Error closing client request", e);
         }
+    }
+
+    @Override
+    public void printHeaders(int httpCode, PrintWriter headerResponseStream, ContentType contentType, int lenght, String clientVersion) {
+        headerResponseStream.println(String.format("%s %d Method Not Allowed", clientVersion, httpCode));
+        super.printHeaders(httpCode, headerResponseStream, contentType, lenght, clientVersion);
     }
 }

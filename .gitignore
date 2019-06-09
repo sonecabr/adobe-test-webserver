@@ -6,3 +6,6 @@ build
 
 #Ignore Editor config files
 .idea
+
+#build files
+out

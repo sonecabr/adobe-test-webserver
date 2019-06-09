@@ -1,12 +1,12 @@
 package com.adobe.test.webserver.http.handler;
 
 import com.adobe.test.webserver.http.exception.HttpRequestHandlingException;
-import com.adobe.test.webserver.http.spec.ClientVersion;
-import com.adobe.test.webserver.http.spec.ContentType;
+import com.adobe.test.webserver.http.spec.*;
 import com.adobe.test.webserver.server.WebServerConfigs;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Instant;
@@ -23,14 +23,6 @@ public class BaseXXHttpHandler {
         }
     }
 
-    public void printPayload(BufferedOutputStream payloadResponseStream, byte[] payload, int lenght) throws HttpRequestHandlingException {
-        try {
-            payloadResponseStream.write(payload, 0, lenght);
-        } catch (IOException e) {
-            throw new HttpRequestHandlingException("Not possible to write the payload", e);
-        }
-    }
-
     public void printHeaders(int httpCode, PrintWriter headerResponseStream, ContentType contentType, int lenght, String clientVersion) {
         headerResponseStream.println(String.format("Server: %s", WebServerConfigs.SERVERNAME));
         headerResponseStream.println("Date: " + Instant.now());
@@ -43,4 +35,5 @@ public class BaseXXHttpHandler {
         }
         headerResponseStream.println();
     }
+
 }

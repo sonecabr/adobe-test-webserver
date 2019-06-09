@@ -2,19 +2,16 @@ package com.adobe.test.webserver.http.handler.httpNotAllowed;
 
 import com.adobe.test.webserver.http.exception.HttpRequestHandlingException;
 import com.adobe.test.webserver.http.handler.BaseXXHttpHandler;
-import com.adobe.test.webserver.http.spec.ClientHeaders;
-import com.adobe.test.webserver.http.spec.ClientVersion;
+import com.adobe.test.webserver.http.spec.ClientHeader;
 import com.adobe.test.webserver.http.spec.ContentType;
 import com.adobe.test.webserver.http.spec.HttpStatusCode;
 import com.adobe.test.webserver.io.WebContentFile;
-import com.adobe.test.webserver.server.WebServerConfigs;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.Instant;
 
 @Slf4j
 public class BaseHttpNotAllowedHandler extends BaseXXHttpHandler {
@@ -30,7 +27,7 @@ public class BaseHttpNotAllowedHandler extends BaseXXHttpHandler {
         }
     }
 
-    public void handle(ClientHeaders clientHeaders,
+    public void handle(ClientHeader clientHeaders,
                        BufferedReader requestStream,
                        PrintWriter headerResponseStream,
                        BufferedOutputStream payloadResponseStream) {
@@ -54,6 +51,7 @@ public class BaseHttpNotAllowedHandler extends BaseXXHttpHandler {
                 clientHeaders.getProtocolVersion());
 
         try {
+            requestStream.close();
             headerResponseStream.flush();
             payloadResponseStream.flush();
             headerResponseStream.close();
