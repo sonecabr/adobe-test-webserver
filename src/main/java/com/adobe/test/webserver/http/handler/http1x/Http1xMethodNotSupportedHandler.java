@@ -20,10 +20,10 @@ public class Http1xMethodNotSupportedHandler extends BaseHttp1xHandler implement
     final int HTTP_CODE = HttpStatusCode.METHOD_NOT_ALLOWED.getCode();
 
     @Override
-    public void handle(ClientHeader clientHeaders,
-                       BufferedReader requestStream,
-                       PrintWriter headerResponseStream,
-                       BufferedOutputStream payloadResponseStream) {
+    public void dispatch(ClientHeader clientHeaders,
+                         BufferedReader requestStream,
+                         PrintWriter headerResponseStream,
+                         BufferedOutputStream payloadResponseStream) {
 
         log.info(String.format("Received a Not allowed request %s", clientHeaders.getUrl()));
         String uri = clientHeaders.getUrl();

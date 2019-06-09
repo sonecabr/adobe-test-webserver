@@ -27,10 +27,10 @@ public class BaseHttpNotAllowedHandler extends BaseXXHttpHandler {
         }
     }
 
-    public void handle(ClientHeader clientHeaders,
-                       BufferedReader requestStream,
-                       PrintWriter headerResponseStream,
-                       BufferedOutputStream payloadResponseStream) {
+    public void dispatch(ClientHeader clientHeaders,
+                         BufferedReader requestStream,
+                         PrintWriter headerResponseStream,
+                         BufferedOutputStream payloadResponseStream) {
 
         log.info(String.format("Received a Http Not Allowed request %s", clientHeaders.getUrl()));
         String uri = clientHeaders.getUrl();

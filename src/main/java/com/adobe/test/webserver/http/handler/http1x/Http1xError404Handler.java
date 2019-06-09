@@ -21,8 +21,8 @@ public class Http1xError404Handler extends BaseHttp1xHandler implements HttpErro
     final int HTTP_CODE = HttpStatusCode.NOT_FOUND_404.getCode();
 
     @Override
-    public void handle(ClientHeader clientHeaders, BufferedReader requestStream,
-                       PrintWriter headerResponseStream, BufferedOutputStream payloadResponseStream) {
+    public void dispatch(ClientHeader clientHeaders, BufferedReader requestStream,
+                         PrintWriter headerResponseStream, BufferedOutputStream payloadResponseStream) {
 
         log.info(String.format("Page not found for request %s", clientHeaders.getUrl()));
 
@@ -42,7 +42,7 @@ public class Http1xError404Handler extends BaseHttp1xHandler implements HttpErro
             Http1xError404Handler
                     .builder()
                     .build()
-                    .handle(clientHeaders, requestStream, headerResponseStream, payloadResponseStream);
+                    .dispatch(clientHeaders, requestStream, headerResponseStream, payloadResponseStream);
         } finally {
             try {
                 headerResponseStream.flush();

@@ -1,7 +1,6 @@
 package com.adobe.test.webserver.http.handler.http1x;
 
 import com.adobe.test.webserver.http.handler.HttpPOSTHandler;
-import com.adobe.test.webserver.http.spec.ClientFormDataUrlEncoded;
 import com.adobe.test.webserver.http.spec.ClientHeader;
 import com.adobe.test.webserver.http.spec.ContentType;
 import com.adobe.test.webserver.http.spec.HttpStatusCode;
@@ -20,8 +19,8 @@ public class Http1xPOSTHandler extends BaseHttp1xHandler implements HttpPOSTHand
     final int HTTP_CODE = HttpStatusCode.CREATED_201.getCode();
 
     @Override
-    public void handle(ClientHeader clientHeaders, BufferedReader requestStream,
-                       PrintWriter headerResponseStream, BufferedOutputStream payloadResponseStream) {
+    public void dispatch(ClientHeader clientHeaders, BufferedReader requestStream,
+                         PrintWriter headerResponseStream, BufferedOutputStream payloadResponseStream) {
 
         log.info(String.format("Received a GET request %s", clientHeaders.getUrl()));
         String uri = clientHeaders.getUrl();
@@ -47,7 +46,7 @@ public class Http1xPOSTHandler extends BaseHttp1xHandler implements HttpPOSTHand
             Http1xError404Handler
                     .builder()
                     .build()
-                    .handle(clientHeaders, requestStream, headerResponseStream, payloadResponseStream);
+                    .dispatch(clientHeaders, requestStream, headerResponseStream, payloadResponseStream);
         } finally {
             try {
                 headerResponseStream.flush();

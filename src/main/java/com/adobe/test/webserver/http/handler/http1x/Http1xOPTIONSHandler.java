@@ -22,10 +22,10 @@ public class Http1xOPTIONSHandler extends BaseHttp1xHandler implements HttpOPTIO
     final int HTTP_CODE = HttpStatusCode.OK_200.getCode();
 
     @Override
-    public void handle(ClientHeader clientHeaders,
-                       BufferedReader requestStream,
-                       PrintWriter headerResponseStream,
-                       BufferedOutputStream payloadResponseStream) {
+    public void dispatch(ClientHeader clientHeaders,
+                         BufferedReader requestStream,
+                         PrintWriter headerResponseStream,
+                         BufferedOutputStream payloadResponseStream) {
 
         log.info(String.format("Received a OPTIONS request %s", clientHeaders.getUrl()));
         String uri = clientHeaders.getUrl();

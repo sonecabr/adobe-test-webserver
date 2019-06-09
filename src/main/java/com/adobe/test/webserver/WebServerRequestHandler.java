@@ -18,7 +18,6 @@ import java.net.SocketException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -37,12 +36,12 @@ public class WebServerRequestHandler implements BasicWebServerRequestHandler {
 
     @Override
     public void run() {
-        handleRequest();
+        dispatch();
     }
 
 
 
-    public void handleRequest() {
+    public void dispatch() {
         BufferedReader requestStream = null;
         PrintWriter responseHeaderStream;
         BufferedOutputStream responsePayloadStream = null;
@@ -61,25 +60,25 @@ public class WebServerRequestHandler implements BasicWebServerRequestHandler {
                 if(clientHeaders.getMethod().equals(HttpMethod.GET)) {
                     if(clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP10 .getClientVersionStr())
                             || clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP11.getClientVersionStr())){
-                        Http1xGETHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
+                        Http1xGETHandler.builder().build().dispatch(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
                     } else {
                         //http2.x and 3.0 is not yet supported
-                        HttpNotAllowedGETHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
+                        HttpNotAllowedGETHandler.builder().build().dispatch(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
                     }
                 } else if(clientHeaders.getMethod().equals(HttpMethod.OPTIONS)) {
                     if (clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP10.getClientVersionStr())
                             || clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP11.getClientVersionStr())) {
-                        Http1xOPTIONSHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
+                        Http1xOPTIONSHandler.builder().build().dispatch(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
                     } else {
-                        HttpNotAllowedOPTIONSHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
+                        HttpNotAllowedOPTIONSHandler.builder().build().dispatch(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
                     }
                 } else if(clientHeaders.getMethod().equals(HttpMethod.POST)) {
                     if(clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP10.getClientVersionStr())
                             || clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP11.getClientVersionStr())) {
-                        Http1xPOSTHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
+                        Http1xPOSTHandler.builder().build().dispatch(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
                     }
                 } else {
-                    HttpNotAllowedGETHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
+                    HttpNotAllowedGETHandler.builder().build().dispatch(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
                 }
             } catch (HttpRequestHandlingException e) {
                 log.error("Catched error", e);

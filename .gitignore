@@ -9,3 +9,4 @@ build
 
 #build files
 out
+*.testfile

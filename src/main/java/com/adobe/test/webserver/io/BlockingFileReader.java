@@ -34,7 +34,7 @@ public class BlockingFileReader implements FileReader {
 
     @Override
     public WebContentFile readContent(String webroot, String path, BufferedOutputStream outputStream) throws FileNotFoundUnreadableException {
-        String canonicalPath = String.format("%s%s", this.getClass().getResourceAsStream(webroot), path);
+        String canonicalPath = String.format("%s%s", webroot, path);
         if (!Files.isReadable(Paths.get(canonicalPath))) {
             throw new FileNotFoundUnreadableException(String.format("File %s is not acessible", path));
         }

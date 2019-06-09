@@ -1,7 +1,7 @@
 package com.adobe.test.webserver.tests.io;
 
+import com.adobe.test.webserver.io.BlockingFileReader;
 import com.adobe.test.webserver.io.FileReader;
-import com.adobe.test.webserver.io.NonBlockingFileReader;
 import com.adobe.test.webserver.io.WebContentFile;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,11 +14,11 @@ import java.io.FileOutputStream;
 import java.net.URL;
 
 @RunWith(JUnit4.class)
-public class NonBlockingFileReaderTest {
+public class BlockingFileReaderTest {
 
     @Test
     public void shouldGetWebContentFile(){
-        FileReader reader = NonBlockingFileReader.getInstance();
+        FileReader reader = BlockingFileReader.getInstance();
         try {
             BufferedOutputStream outputStream = new BufferedOutputStream(
                     new FileOutputStream(new File("cachedOS")));
@@ -32,5 +32,4 @@ public class NonBlockingFileReaderTest {
             e.printStackTrace();
         }
     }
-
 }

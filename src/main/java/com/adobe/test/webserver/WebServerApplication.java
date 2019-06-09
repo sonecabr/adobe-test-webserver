@@ -13,8 +13,13 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class WebServerApplication {
 
+    public static Boolean isRunning = Boolean.FALSE;
+
     public static void main(String[] args) {
+
         WebServerConfigs webServerConfigs = new WebServerConfigs();
+
+
         log.info("Starting Adobe test webserver...");
         log.info("\n        yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\n" +
                 "        yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\n" +
@@ -59,6 +64,7 @@ public class WebServerApplication {
             ServerSocket serverSocket = new ServerSocket(WebServerConfigs.PORT_TO_LISTEN);
 
             while (true) {
+                isRunning = Boolean.TRUE;
                 executorService.submit(
                         WebServerRequestHandler
                                 .builder()
@@ -72,9 +78,6 @@ public class WebServerApplication {
             } else {
                 log.error("Server failed to start...");
             }
-
         }
-
-
     }
 }
