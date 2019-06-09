@@ -3,6 +3,12 @@ package com.adobe.test.webserver.http.spec;
 
 import java.util.regex.Pattern;
 
+/**
+ * Regex to query folder and files in webroot
+ *
+ * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @since 2019-06-09
+ */
 public class ClientRequestPattern {
 
     public static final String firstLineRootWithBarRegex = "^(\\S+) / (\\S+)\\/(\\S+)?$";

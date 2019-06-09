@@ -7,26 +7,39 @@ import lombok.Builder;
 import lombok.Data;
 import java.util.List;
 
+
+/**
+ * WebServer configs
+ * <ul>
+ *     <li>Suports file resource @see src/main/resources/default.conf<li/>
+ *     <li>Suports environments (same name as file)<li/>
+ * <ul/>
+ * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @since 2019-06-08
+ */
 @Builder
 @Data
 public class WebServerConfigs {
-    public static Integer THREAD_LIMIT;
-    public static Integer PORT_TO_LISTEN;
-    public static String WEB_ROOT;
-    public static List<String> DEFAULT_FILES;
-    public static String NOT_FOUND_FILE;
-    public static String BACKEND_ERROR_FILE;
-    public static String CHARSET;
-    public static String SERVERNAME;
-    public static boolean KEEP_ALIVE_ENABLED;
-    public static Integer KEEP_ALIVE_TIMEOUT;
-    public static Integer KEEP_ALIVE_MAX;
+    public static Integer THREAD_LIMIT; //number of the threads to reserve
+    public static Integer PORT_TO_LISTEN; //port to listen
+    public static String WEB_ROOT; //folder where webcontent would be lotated
+    public static List<String> DEFAULT_FILES; //default return in case of missing uri information
+    public static String NOT_FOUND_FILE; //404 file
+    public static String BACKEND_ERROR_FILE; //500 file
+    public static String CHARSET; //charset of files in WebROOT
+    public static String SERVERNAME; //server name (which is visibile in http response
+    public static boolean KEEP_ALIVE_ENABLED; //keep alive enabled?
+    public static Integer KEEP_ALIVE_TIMEOUT; //keep alive time to wait before close
+    public static Integer KEEP_ALIVE_MAX; //keep alive max
 
 
     public WebServerConfigs(){
         init();
     }
 
+    /**
+     * Read configs from resources or environment
+     */
     public void init(){
 
         Config defaultConf = ConfigFactory.parseResources("default.conf");

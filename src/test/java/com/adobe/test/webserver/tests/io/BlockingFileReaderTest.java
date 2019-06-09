@@ -21,7 +21,7 @@ public class BlockingFileReaderTest {
         FileReader reader = BlockingFileReader.getInstance();
         try {
             BufferedOutputStream outputStream = new BufferedOutputStream(
-                    new FileOutputStream(new File("cachedOS")));
+                    new FileOutputStream(new File("cachedOS.testfile")));
 
 
             URL url = this.getClass().getClassLoader().getResource("www");

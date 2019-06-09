@@ -13,6 +13,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Http1.x OPTIONS method dispatcher
+ * <ul>
+ *     <li>manage requests for Not supported method</li>
+ *     <li>threat all headers from client side</li>
+ *     <li>write headers and body (html)</li>
+ *     <li>configure response headers and code</li>
+ * </ul>
+ *
+ *
+ * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @since 2019-06-09
+ */
 @Slf4j
 @Builder
 public class Http1xMethodNotSupportedHandler extends BaseHttp1xHandler implements HttpMethodNotSupportedHandler {

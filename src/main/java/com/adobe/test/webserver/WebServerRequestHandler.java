@@ -22,7 +22,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-
+/**
+ * WebServer default request dispatcher
+ * <p>
+ *     - Receive http connections, and dispatch to proper handlers (GET, POST, OPTIONS)
+ *     - Extract http headers from client request
+ *     - Extract form data (for POST)
+ *     - Define client http version (1.0, 1.1, 2.0, 3.0)
+ * <p/>
+ * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @since 2019-06-08
+ */
 @Slf4j
 @Builder
 @AllArgsConstructor

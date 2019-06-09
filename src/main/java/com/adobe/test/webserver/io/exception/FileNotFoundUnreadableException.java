@@ -1,5 +1,13 @@
 package com.adobe.test.webserver.io.exception;
 
+/**
+ * File not readable or unavailable exception
+ * <p>
+ *     Define exception for wrong access or path configuration in webroot
+ * <p/>
+ * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @since 2019-06-08
+ */
 public class FileNotFoundUnreadableException extends Exception {
 
     public FileNotFoundUnreadableException() {

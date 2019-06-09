@@ -5,6 +5,12 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+/**
+ * Http Content-Type type definition
+ *
+ * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @since 2019-06-09
+ */
 @Getter
 public enum ContentType {
     HTM("text/htm", ".htm"),
