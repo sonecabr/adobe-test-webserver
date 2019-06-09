@@ -11,7 +11,7 @@ package com.adobe.test.webserver.http.handler;
  * </ul>
  *
  *
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @author Andre Rocha
  * @since 2019-06-09
  */
 public interface HttpGETHandler extends BaseHttpHandler {}

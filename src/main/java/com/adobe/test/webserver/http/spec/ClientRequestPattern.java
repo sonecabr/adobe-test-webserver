@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 /**
  * Regex to query folder and files in webroot
  *
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @author Andre Rocha
  * @since 2019-06-09
  */
 public class ClientRequestPattern {

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 /**
  * Http Content-Type type definition
  *
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @author Andre Rocha
  * @since 2019-06-09
  */
 @Getter

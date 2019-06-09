@@ -41,9 +41,10 @@ task fatJar(type: Jar) {
     with jar
 }
 
-//test {
-//    useJUnitPlatform()
-//}
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+}
 
 dependencies {
 

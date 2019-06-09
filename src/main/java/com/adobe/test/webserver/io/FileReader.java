@@ -8,8 +8,8 @@ import java.io.BufferedOutputStream;
  * File reader api
  * <p>
  *     Define api to read files from webroot folder
- * <p/>
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * </p>
+ * @author Andre Rocha
  * @since 2019-06-08
  */
 public interface FileReader {

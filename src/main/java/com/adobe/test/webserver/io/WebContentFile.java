@@ -11,7 +11,7 @@ import java.io.BufferedOutputStream;
  * <p>
  *     Content of files available in server (html)
  * </p>
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @author Andre Rocha
  * @since 2019-06-08
  */
 @Builder

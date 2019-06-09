@@ -11,10 +11,10 @@ import java.util.List;
 /**
  * WebServer configs
  * <ul>
- *     <li>Suports file resource @see src/main/resources/default.conf<li/>
- *     <li>Suports environments (same name as file)<li/>
- * <ul/>
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ *     <li>Suports file resource @see src/main/resources/default.conf</li>
+ *     <li>Suports environments (same name as file)</li>
+ * </ul>
+ * @author Andre Rocha
  * @since 2019-06-08
  */
 @Builder

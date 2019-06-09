@@ -27,7 +27,7 @@ public class NonBlockingFileReaderTest {
             URL url = this.getClass().getClassLoader().getResource("www");
             WebContentFile result = reader.readContent(url.getPath(), "/test.html", outputStream);
             Assert.assertNotNull(result);
-            Assert.assertEquals(result.getLenght(), 108);
+            Assert.assertEquals(result.getLenght(), 96);
         } catch (Exception e) {
             e.printStackTrace();
         }

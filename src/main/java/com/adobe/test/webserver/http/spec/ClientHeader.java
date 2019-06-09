@@ -6,7 +6,7 @@ import lombok.Value;
 /**
  * Http Headers available for this server
  *
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @author Andre Rocha
  * @since 2019-06-09
  */
 @Builder

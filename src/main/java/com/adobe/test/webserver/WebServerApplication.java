@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 /**
  * WebServer main class
  * One thread per request, not the best approach in resource consumption, but simpliest way to add multi connection capabilities
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @author Andre Rocha
  * @since 2019-06-08
  */
 @Slf4j

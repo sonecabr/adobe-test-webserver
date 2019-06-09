@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * </ul>
  *
  *
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @author Andre Rocha
  * @since 2019-06-09
  */
 @Builder

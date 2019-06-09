@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 /**
  * Http1.x 404 page not found dispatcher api
  *
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * @author Andre Rocha
  * @since 2019-06-09
  */
 @Builder

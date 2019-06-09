@@ -30,6 +30,8 @@ capabilities exposed through its request headers.
  - Add Authentication support (Basic, Bearer Token, Oauth1|2, Digest)
  - Improve connection management (not only based on Threads, but also by implementing Reative pattern)
  - Add support to 3rd party plugins
+ - Add suport to define log level
+ - Add suport to log patterns (like apache_combined)
 
 ## Dependencies
  - Gradle 5.4.1
@@ -109,6 +111,13 @@ With Kubernetes
 helm install --namespace [yournamespace] --name adobe-test-webserver devops/kubernetes/adobe-test-webserver -f devops/kubernetes/adobe-test-webserver/values.yaml
 ```
 
+## JavaDoc
+ - JavaDoc does not support Lombok plugin, so before create docs, you need to run delombok to create proper source reference
+  ```
+  java -jar lombok.jar delombok src -d src-delomboked
+  gradle javadoc
+  ```
+
 ## Third party software credits
   - Page 404 Design and Style
     Publisher: https://freefrontend.com/html-css-404-page-templates/
@@ -126,6 +135,8 @@ helm install --namespace [yournamespace] --name adobe-test-webserver devops/kube
     Author: Slf4J.org
     License: MIT
     url: https://www.slf4j.org/
+  - Code of conduct was based/copy of Adobe Brackets code of conduct 
+    https://raw.githubusercontent.com/adobe/brackets/master/CODE_OF_CONDUCT.md
       
 ## Author
  - Andre Rocha <devel.andrerocha@gmail.com>

@@ -16,8 +16,8 @@ import java.nio.file.StandardOpenOption;
  * No blocking file reader
  * <p>
  *     Read files without read lock
- * <p/>
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * </p>
+ * @author Andre Rocha
  * @since 2019-06-08
  */
 @Slf4j

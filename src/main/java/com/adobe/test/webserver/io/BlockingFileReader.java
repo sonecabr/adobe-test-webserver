@@ -18,8 +18,8 @@ import java.util.Optional;
  *  Blocking file reader
  * <p>
  *     Read files with read lock
- * <p/>
- * @author Andre Rocha <devel.andrerocha@gmail.com>
+ * </p>
+ * @author Andre Rocha
  * @since 2019-06-08
  */
 @Slf4j
