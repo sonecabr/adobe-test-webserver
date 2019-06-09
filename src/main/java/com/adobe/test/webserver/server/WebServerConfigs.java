@@ -19,6 +19,8 @@ public class WebServerConfigs {
     public static String CHARSET;
     public static String SERVERNAME;
     public static boolean KEEP_ALIVE_ENABLED;
+    public static Integer KEEP_ALIVE_TIMEOUT;
+    public static Integer KEEP_ALIVE_MAX;
 
 
     public WebServerConfigs(){
@@ -43,6 +45,8 @@ public class WebServerConfigs {
         CHARSET = config.getString("server_charset");
         SERVERNAME = config.getString("server_servername");
         KEEP_ALIVE_ENABLED = config.getBoolean("server_keepaliveactive");
+        KEEP_ALIVE_TIMEOUT = config.getInt("server_keepalivetimeout");
+        KEEP_ALIVE_MAX = config.getInt("server_keepalivemax");
 
     }
 

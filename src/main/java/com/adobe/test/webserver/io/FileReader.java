@@ -9,4 +9,6 @@ public interface FileReader {
 
     WebContentFile readContent(String path, BufferedOutputStream outputStream) throws FileNotFoundUnreadableException;
 
+    WebContentFile readContent(String webroot, String path, BufferedOutputStream outputStream) throws FileNotFoundUnreadableException;
+
 }

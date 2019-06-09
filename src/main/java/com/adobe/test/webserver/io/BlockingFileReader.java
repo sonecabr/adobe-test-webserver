@@ -28,7 +28,21 @@ public class BlockingFileReader implements FileReader {
         if (!Files.isReadable(Paths.get(canonicalPath))) {
             throw new FileNotFoundUnreadableException(String.format("File %s is not acessible", path));
         }
+        return consume(canonicalPath, outputStream);
 
+    }
+
+    @Override
+    public WebContentFile readContent(String webroot, String path, BufferedOutputStream outputStream) throws FileNotFoundUnreadableException {
+        String canonicalPath = String.format("%s%s", this.getClass().getResourceAsStream(webroot), path);
+        if (!Files.isReadable(Paths.get(canonicalPath))) {
+            throw new FileNotFoundUnreadableException(String.format("File %s is not acessible", path));
+        }
+        return consume(canonicalPath, outputStream);
+
+    }
+
+    private WebContentFile consume(String canonicalPath, BufferedOutputStream outputStream) throws FileNotFoundUnreadableException {
         FileInputStream fin = null;
         File file = new File(canonicalPath);
         int lenght = (int) file.length();
@@ -54,7 +68,5 @@ public class BlockingFileReader implements FileReader {
 
             });
         }
-
-
     }
 }

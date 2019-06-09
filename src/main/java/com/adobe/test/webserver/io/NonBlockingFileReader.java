@@ -27,6 +27,20 @@ public class NonBlockingFileReader implements FileReader {
         if (!Files.isReadable(Paths.get(canonicalPath))) {
             throw new FileNotFoundUnreadableException(String.format("File %s is not acessible", path));
         }
+        return consume(canonicalPath, outputStream);
+    }
+
+    @Override
+    public WebContentFile readContent(String webroot, String path, BufferedOutputStream outputStream) throws FileNotFoundUnreadableException {
+        String canonicalPath = String.format("%s%s", webroot, path);
+        if (!Files.isReadable(Paths.get(canonicalPath))) {
+            throw new FileNotFoundUnreadableException(String.format("File %s is not acessible", path));
+        }
+        return consume(canonicalPath, outputStream);
+
+    }
+
+    private WebContentFile consume(String canonicalPath, BufferedOutputStream outputStream) {
         try (InputStream is = Files.newInputStream(Paths.get(canonicalPath), StandardOpenOption.READ)) {
 
 

@@ -1,21 +1,18 @@
-package com.adobe.test.webserver.http.handler.http11;
+package com.adobe.test.webserver.http.handler;
 
 import com.adobe.test.webserver.http.exception.HttpRequestHandlingException;
 import com.adobe.test.webserver.http.spec.ClientVersion;
 import com.adobe.test.webserver.http.spec.ContentType;
-import com.adobe.test.webserver.io.FileReader;
-import com.adobe.test.webserver.io.NonBlockingFileReader;
 import com.adobe.test.webserver.server.WebServerConfigs;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Instant;
 
-public class BaseHttp11Handler {
-
-    final FileReader fileReader = NonBlockingFileReader.getInstance();
-    final String CLIENT_VERSION = ClientVersion.HTTP11.getClientVersionStr();
+@Slf4j
+public class BaseXXHttpHandler {
 
     public String extractExtension(String uri) {
         if(uri.contains(".")){
@@ -32,15 +29,18 @@ public class BaseHttp11Handler {
         } catch (IOException e) {
             throw new HttpRequestHandlingException("Not possible to write the payload", e);
         }
-
     }
 
-    public void printHeaders(int httpCode, PrintWriter headerResponseStream, ContentType contentType, int lenght) {
-        headerResponseStream.println(String.format("%s %s OK", CLIENT_VERSION, httpCode));
+    public void printHeaders(int httpCode, PrintWriter headerResponseStream, ContentType contentType, int lenght, String clientVersion) {
         headerResponseStream.println(String.format("Server: %s", WebServerConfigs.SERVERNAME));
         headerResponseStream.println("Date: " + Instant.now());
         headerResponseStream.println("Content-type: " + contentType.getDescription());
         headerResponseStream.println("Content-length: " + lenght);
+        if(clientVersion.equals(ClientVersion.HTTP11.getClientVersionStr())) {
+            headerResponseStream.println(
+                    String.format("Keep-Alive: timeout=%d, max=%d",
+                            WebServerConfigs.KEEP_ALIVE_TIMEOUT, WebServerConfigs.KEEP_ALIVE_MAX));
+        }
         headerResponseStream.println();
     }
 }

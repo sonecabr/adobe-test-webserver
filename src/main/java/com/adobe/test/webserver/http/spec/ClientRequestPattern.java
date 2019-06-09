@@ -5,9 +5,11 @@ import java.util.regex.Pattern;
 
 public class ClientRequestPattern {
 
+    public static final String firstLineRootWithBarRegex = "^(\\S+) / (\\S+)\\/(\\S+)?$";
     public static final String firstLineRootRegex = "^(\\S+) (\\S+)\\/(\\S+)?$";
     public static final String firstLineRegex = "^(\\S+) \\/(\\S+) (\\S+)\\/(\\S+)?$";
     public static final Pattern firstLineRootPattern = Pattern.compile(firstLineRootRegex);
+    public static final Pattern firstLineRootWithBarPattern = Pattern.compile(firstLineRootWithBarRegex);
     public static final Pattern firstLinePattern = Pattern.compile(firstLineRegex);
 
 }

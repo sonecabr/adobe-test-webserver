@@ -3,8 +3,10 @@ package com.adobe.test.webserver.http.spec;
 import lombok.Getter;
 
 public enum  ClientVersion {
-
-    HTTP11("HTTP/1.1");
+    HTTP10("HTTP/1.0"),
+    HTTP11("HTTP/1.1"),
+    HTTP20("HTTP/2.0"),
+    HTTP30("HTTP/3.0");
 
     @Getter
     private String clientVersionStr;
@@ -14,8 +16,17 @@ public enum  ClientVersion {
     }
 
     ClientVersion fromString(String s) {
+        if(s.toUpperCase().equals(HTTP10.getClientVersionStr())){
+            return HTTP10;
+        }
         if(s.toUpperCase().equals(HTTP11.getClientVersionStr())){
             return HTTP11;
+        }
+        if(s.toUpperCase().equals(HTTP20.getClientVersionStr())){
+            return HTTP20;
+        }
+        if(s.toUpperCase().equals(HTTP30.getClientVersionStr())){
+            return HTTP30;
         }
         return HTTP11;
     }

@@ -1,11 +1,14 @@
 package com.adobe.test.webserver;
 
+import com.adobe.test.webserver.http.handler.http1x.Http1xOPTIONSHandler;
+import com.adobe.test.webserver.http.handler.httpNotAllowed.HttpNotAllowedGETHandler;
+import com.adobe.test.webserver.http.handler.httpNotAllowed.HttpNotAllowedOPTIONSHandler;
 import com.adobe.test.webserver.server.BasicWebServerRequestHandler;
 import com.adobe.test.webserver.http.spec.ClientHeaders;
 import com.adobe.test.webserver.http.spec.ClientRequestPattern;
 import com.adobe.test.webserver.http.spec.HttpMethod;
 import com.adobe.test.webserver.http.exception.HttpRequestHandlingException;
-import com.adobe.test.webserver.http.handler.http11.Http11GETHandler;
+import com.adobe.test.webserver.http.handler.http1x.Http1xGETHandler;
 import com.adobe.test.webserver.http.spec.ClientVersion;
 import com.adobe.test.webserver.server.WebServerConfigs;
 import lombok.*;
@@ -54,9 +57,23 @@ public class WebServerRequestHandler implements BasicWebServerRequestHandler {
                         = extractClientHeaders(firstLine);
                 defineKeepAliveBehavior(clientHeaders);
                 if(clientHeaders.getMethod().equals(HttpMethod.GET)) {
-                    if(clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP11.getClientVersionStr())){
-                        Http11GETHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
+                    if(clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP10 .getClientVersionStr())
+                            || clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP11.getClientVersionStr())){
+                        Http1xGETHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
+                    } else {
+                        //http2.x and 3.0 is not yet supported
+                        HttpNotAllowedGETHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
                     }
+                } else if(clientHeaders.getMethod().equals(HttpMethod.OPTIONS)) {
+                    if(clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP10 .getClientVersionStr())
+                            || clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP11.getClientVersionStr())){
+                        Http1xOPTIONSHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
+                    } else {
+                        //http1.1 is the fallback
+                        HttpNotAllowedOPTIONSHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
+                    }
+                } else {
+                    HttpNotAllowedGETHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
                 }
             } catch (HttpRequestHandlingException e) {
                 log.error("Catched error", e);
@@ -79,6 +96,7 @@ public class WebServerRequestHandler implements BasicWebServerRequestHandler {
             log.info("Enabling keep alive to client");
             try {
                 clientSocket.setKeepAlive(true);
+
             } catch (SocketException e) {
                 log.error("Keep Alive not available for this client");
             }
@@ -98,14 +116,26 @@ public class WebServerRequestHandler implements BasicWebServerRequestHandler {
         } else {
             matcher = ClientRequestPattern.firstLineRootPattern.matcher(line);
             if(!matcher.matches()){
-                throw new HttpRequestHandlingException("Header is not valid");
+                matcher = ClientRequestPattern.firstLineRootWithBarPattern.matcher(line);
+                if(!matcher.matches()){
+                    throw new HttpRequestHandlingException("Header is not valid");
+                } else {
+                    return  ClientHeaders
+                            .builder()
+                            .method(HttpMethod.valueOf(matcher.group(1).toUpperCase()))
+                            .url(String.format("/%s", "/"))
+                            .protocolVersion(String.format("%s/%s", matcher.group(2), matcher.group(3)))
+                            .build();
+                }
+            } else {
+                return  ClientHeaders
+                        .builder()
+                        .method(HttpMethod.valueOf(matcher.group(1).toUpperCase()))
+                        .url(String.format("/%s", matcher.group(2).toLowerCase()))
+                        .protocolVersion(String.format("%s/%s", matcher.group(3), matcher.group(4)))
+                        .build();
             }
-            return  ClientHeaders
-                    .builder()
-                    .method(HttpMethod.valueOf(matcher.group(1).toUpperCase()))
-                    .url(String.format("/%s", matcher.group(2).toLowerCase()))
-                    .protocolVersion(String.format("%s/%s", matcher.group(3), matcher.group(4)))
-                    .build();
+
         }
 
     }
