@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum HttpStatusCode {
-    SUCCESS_200(200),
+    OK_200(200),
     CREATED_201(201),
     NOT_FOUND_404(404);
 

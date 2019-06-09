@@ -1,0 +1,46 @@
+appname: adobe-test-webserver
+image:
+  repository: sobecabr/adobe-test-webserver
+  tag: 1.0.0
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: adobe-test-webserver.testserver.com
+      paths:
+        - /
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+configmap:
+  server_threadlimit: 4
+  server_port: 8080
+  server_webroot: "/var/www"
+  server_defaultfiles: [ "index.html", "default.html" ]
+  server_notfoundfile: "404.html"
+  server_backenderrorfile: "500.html"
+  server_charset: "UTF-8"
+  server_servername: "Adobe Test WebServer 0.1-SNAPSHOT"
+  server_keepaliveactive: true
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

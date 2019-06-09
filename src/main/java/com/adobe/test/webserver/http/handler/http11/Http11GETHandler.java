@@ -6,7 +6,6 @@ import com.adobe.test.webserver.http.spec.ClientHeaders;
 import com.adobe.test.webserver.http.spec.ClientVersion;
 import com.adobe.test.webserver.http.spec.ContentType;
 import com.adobe.test.webserver.http.spec.HttpStatusCode;
-import com.adobe.test.webserver.io.BlockingFileReader;
 import com.adobe.test.webserver.io.FileReader;
 import com.adobe.test.webserver.io.NonBlockingFileReader;
 import com.adobe.test.webserver.io.WebContentFile;
@@ -23,11 +22,10 @@ import java.time.Instant;
 
 @Slf4j
 @Builder
-public class Http11GETHandler implements HttpGETHandler {
+public class Http11GETHandler extends BaseHttp11Handler implements HttpGETHandler  {
 
-    final FileReader fileReader = NonBlockingFileReader.getInstance();
-    final int HTTP_CODE = HttpStatusCode.SUCCESS_200.getCode();
-    final String CLIENT_VERSION = ClientVersion.HTTP11.getClientVersionStr();
+    final int HTTP_CODE = HttpStatusCode.OK_200.getCode();
+
 
     @Override
     public void handle(ClientHeaders clientHeaders,
@@ -39,7 +37,7 @@ public class Http11GETHandler implements HttpGETHandler {
         String uri = clientHeaders.getUrl();
 
         if(uri.equals("/")) { //hadle root request
-            uri += WebServerConfigs.DEFAULT_FILES[0];
+            uri += WebServerConfigs.DEFAULT_FILES.get(0); //FIXME improve to validate file stream
         }
 
 
@@ -50,11 +48,10 @@ public class Http11GETHandler implements HttpGETHandler {
             }
             WebContentFile content = fileReader.readContent(uri, payloadResponseStream);
             printHeaders(
+                    HTTP_CODE,
                     headerResponseStream,
                     ContentType.byExtension(extractExtension(uri)),
                     content.getLenght());
-
-            //printPayload(payloadResponseStream, content.getContent(), content.getLenght());
 
         } catch (FileNotFoundUnreadableException e) {
             Http11Error404Handler
@@ -73,33 +70,5 @@ public class Http11GETHandler implements HttpGETHandler {
         }
     }
 
-    public String extractExtension(String uri) {
-        if(uri.contains("\\.")){
-            String[] parts = uri.split("\\.");
-            return parts[parts.length];
-        } else {
-            return "";
-        }
 
-
-
-    }
-
-    public void printPayload(BufferedOutputStream payloadResponseStream, byte[] payload, int lenght) throws HttpRequestHandlingException {
-        try {
-            payloadResponseStream.write(payload, 0, lenght);
-        } catch (IOException e) {
-            throw new HttpRequestHandlingException("Not possible to write the payload", e);
-        }
-
-    }
-
-    public void printHeaders(PrintWriter headerResponseStream, ContentType contentType, int lenght) {
-        headerResponseStream.println(String.format("%s %s OK", CLIENT_VERSION, HTTP_CODE));
-        headerResponseStream.println(String.format("Server: %s", WebServerConfigs.SERVERNAME));
-        headerResponseStream.println("Date: " + Instant.now());
-        headerResponseStream.println("Content-type: " + contentType.getDescription());
-        headerResponseStream.println("Content-length: " + lenght);
-        headerResponseStream.println();
-    }
 }

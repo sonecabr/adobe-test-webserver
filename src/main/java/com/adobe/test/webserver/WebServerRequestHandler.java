@@ -7,11 +7,13 @@ import com.adobe.test.webserver.http.spec.HttpMethod;
 import com.adobe.test.webserver.http.exception.HttpRequestHandlingException;
 import com.adobe.test.webserver.http.handler.http11.Http11GETHandler;
 import com.adobe.test.webserver.http.spec.ClientVersion;
+import com.adobe.test.webserver.server.WebServerConfigs;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.regex.Matcher;
 
 
@@ -50,7 +52,7 @@ public class WebServerRequestHandler implements BasicWebServerRequestHandler {
             try {
                 ClientHeaders clientHeaders
                         = extractClientHeaders(firstLine);
-
+                defineKeepAliveBehavior(clientHeaders);
                 if(clientHeaders.getMethod().equals(HttpMethod.GET)) {
                     if(clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP11.getClientVersionStr())){
                         Http11GETHandler.builder().build().handle(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
@@ -64,6 +66,22 @@ public class WebServerRequestHandler implements BasicWebServerRequestHandler {
 
         } catch (Exception e) {
             log.error("Error handling request", e);
+        }
+    }
+
+    /**
+     * Define if clients should use keep alive based on Client Version informed in request
+     * @param clientHeaders
+     */
+    public void defineKeepAliveBehavior(ClientHeaders clientHeaders) {
+        if(WebServerConfigs.KEEP_ALIVE_ENABLED
+                && clientHeaders.getProtocolVersion().equals(ClientVersion.HTTP11.getClientVersionStr())){
+            log.info("Enabling keep alive to client");
+            try {
+                clientSocket.setKeepAlive(true);
+            } catch (SocketException e) {
+                log.error("Keep Alive not available for this client");
+            }
         }
     }
 

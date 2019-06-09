@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 public class WebServerApplication {
 
     public static void main(String[] args) {
+        WebServerConfigs webServerConfigs = new WebServerConfigs();
         log.info("Starting Adobe test webserver...");
         log.info("\n        yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\n" +
                 "        yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\n" +
@@ -52,9 +53,11 @@ public class WebServerApplication {
                 "        yyyyyy-  oyyy:  /y:` `..  :yy:` .``.+yy` `..` .oyy+.``...:yyyyyy\n" +
                 "        yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\n" +
                 "        yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\n\n\n");
+
         ExecutorService executorService = Executors.newFixedThreadPool(WebServerConfigs.THREAD_LIMIT);
         try {
             ServerSocket serverSocket = new ServerSocket(WebServerConfigs.PORT_TO_LISTEN);
+
             while (true) {
                 executorService.submit(
                         WebServerRequestHandler

@@ -30,6 +30,17 @@ task webserverRun(type: JavaExec) {
     args "arg1", "arg2"
 }
 
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Adobe Test WebServer',
+                'Implementation-Version': version,
+                'Main-Class': 'com.adobe.test.webserver.WebServerApplication'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 dependencies {
 
     compile 'commons-io:commons-io:2.6'
