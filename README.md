@@ -141,4 +141,4 @@ helm install --namespace [yournamespace] --name adobe-test-webserver devops/kube
 ## Author
  - Andre Rocha <devel.andrerocha@gmail.com>
  - https://github.com/sonecabr
- - https://github.com/sonecabr/adobe-test-webserver __[private] * ask me for acess__
+ - https://github.com/sonecabr/adobe-test-webserver __[private] * ask me for access__
