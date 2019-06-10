@@ -18,6 +18,7 @@ import java.net.SocketException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -58,6 +59,7 @@ public class WebServerRequestHandler implements BasicWebServerRequestHandler {
         String request = null;
 
         try {
+            clientSocket.setSoTimeout(WebServerConfigs.CLIENT_TIMEOUT);
             //prepare streams
             requestStream = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             responseHeaderStream = new PrintWriter(clientSocket.getOutputStream());
@@ -91,12 +93,12 @@ public class WebServerRequestHandler implements BasicWebServerRequestHandler {
                     HttpNotAllowedGETHandler.builder().build().dispatch(clientHeaders, requestStream, responseHeaderStream, responsePayloadStream);
                 }
             } catch (HttpRequestHandlingException e) {
-                log.error("Catched error", e);
+                log.error("Raised error", e);
                 clientSocket.close();
             }
 
         } catch (Exception e) {
-            log.error("Error handling request", e);
+            log.error("Raised error", e);
         }
     }
 
@@ -187,7 +189,7 @@ public class WebServerRequestHandler implements BasicWebServerRequestHandler {
 
             ClientFormData formData = extractFormData(requestHeaders, requestStream);
 
-            Matcher matcher = ClientRequestPattern.firstLinePattern.matcher(firstLine);
+            Matcher matcher = ClientRequestPattern.firstLinePattern.matcher(Optional.ofNullable(firstLine).orElse(""));
             if(matcher.matches()){
                 return  ClientHeader
                         .builder()
@@ -203,9 +205,9 @@ public class WebServerRequestHandler implements BasicWebServerRequestHandler {
                         .formData(formData)
                         .build();
             } else {
-                matcher = ClientRequestPattern.firstLineRootPattern.matcher(firstLine);
+                matcher = ClientRequestPattern.firstLineRootPattern.matcher(Optional.ofNullable(firstLine).orElse(""));
                 if(!matcher.matches()){
-                    matcher = ClientRequestPattern.firstLineRootWithBarPattern.matcher(firstLine);
+                    matcher = ClientRequestPattern.firstLineRootWithBarPattern.matcher(Optional.ofNullable(firstLine).orElse(""));
                     if(!matcher.matches()){
                         throw new HttpRequestHandlingException("Header is not valid");
                     } else {

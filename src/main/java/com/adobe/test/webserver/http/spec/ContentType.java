@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 public enum ContentType {
     HTM("text/htm", ".htm"),
     HTML("text/html", ".html"),
+    CSS("text/css", ".css"),
+    JAVASCRIPT("application/javascript", ".js"),
     URL_ENCODED("application/x-www-form-urlencoded", ".html"),
     DEFAULT("text/html", "");
 
