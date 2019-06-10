@@ -31,6 +31,7 @@ public class WebServerConfigs {
     public static boolean KEEP_ALIVE_ENABLED; //keep alive enabled?
     public static Integer KEEP_ALIVE_TIMEOUT; //keep alive time to wait before close
     public static Integer KEEP_ALIVE_MAX; //keep alive max
+    public static Integer CLIENT_TIMEOUT; //timeout to request
 
 
     public WebServerConfigs(){
@@ -60,6 +61,7 @@ public class WebServerConfigs {
         KEEP_ALIVE_ENABLED = config.getBoolean("server_keepaliveactive");
         KEEP_ALIVE_TIMEOUT = config.getInt("server_keepalivetimeout");
         KEEP_ALIVE_MAX = config.getInt("server_keepalivemax");
+        CLIENT_TIMEOUT = config.getInt("client_timeout");
 
     }
 

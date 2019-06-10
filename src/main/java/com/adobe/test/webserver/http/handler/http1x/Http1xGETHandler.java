@@ -43,7 +43,7 @@ public class Http1xGETHandler extends BaseHttp1xHandler implements HttpGETHandle
         log.info(String.format("Received a GET request %s", clientHeaders.getUrl()));
         String uri = clientHeaders.getUrl();
 
-        if(uri.equals("/")) { //hadle root request
+        if(uri.endsWith("/") || uri.endsWith("//")){
             uri += WebServerConfigs.DEFAULT_FILES.get(0); //FIXME improve to validate file stream
         }
 

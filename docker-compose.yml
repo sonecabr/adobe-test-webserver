@@ -9,7 +9,7 @@ services:
     environment:
       server_threadlimit: 4
       server_port: 8080
-      server_webroot: "/var/www/"
+      server_webroot: "/var/www"
       server_notfoundfile: "404.html"
       server_backenderrorfile: "500.html"
       server_charset: "UTF-8"
@@ -17,7 +17,7 @@ services:
       server_keepaliveactive: "true"
 
     volumes:
-      - "/tmp/www:/var/www/"
+      - "/tmp/www:/var/www"
 
     ports:
       - "8080:8080"

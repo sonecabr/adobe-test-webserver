@@ -32,10 +32,12 @@ capabilities exposed through its request headers.
  - Add support to 3rd party plugins
  - Add suport to define log level
  - Add suport to log patterns (like apache_combined)
+ - Add DOS and or QoS implementation
 
 ## Dependencies
  - Gradle 5.4.1
  - OpenJdk8
+ - Lombok plugin (Idea, Eclipse), if you want to import the project into IDE
  - Docker (if you want to run on Docker) 18+
  - Docker Compose (if you want to run on Docker trough docker-compose command) 1.23+
  - Kubernetes Cluster + Kubectl + Helm (If you want to run on K8s)
@@ -72,7 +74,7 @@ docker built -t [yourepository] .
 gradle test
 ```
 * Its possible to check the test report by acessing the html page bellow after run:
- - file:///__$PROJECT_HOME__/build/reports/tests/test/classes/com.adobe.test.webserver.tests.WebServerRequestHandlerTest.html
+ - file:///__$PROJECT_HOME__/build/reports/tests/test/index.html
 
 
 ## Run
@@ -110,6 +112,13 @@ With Kubernetes
 ```
 helm install --namespace [yournamespace] --name adobe-test-webserver devops/kubernetes/adobe-test-webserver -f devops/kubernetes/adobe-test-webserver/values.yaml
 ```
+
+## Usage
+- Place your html files in the folder of your preference
+- Configure environment `server_webroot` or change the variable `server_webroot` in the file src/main/resources/default.conf to bound to your folder
+- Start the server (if you change the config file, you need to start by gradle or compiledJar)
+- Access in your browser http://localhost:8080/{file.html}
+* in the folder src/main/resources/www you can get example files
 
 ## JavaDoc
  - JavaDoc does not support Lombok plugin, so before create docs, you need to run delombok to create proper source reference
