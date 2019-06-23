@@ -1,4 +1,4 @@
-# Adobe Test :: Java basic file based WebServer
+# Problem to solve :: Java basic file based WebServer
 
 ## Problem Description:
 A multi-threaded (e.g. file-based) web server with thread-pooling implemented in Java.
